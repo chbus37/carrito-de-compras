@@ -4,17 +4,28 @@ const contenedorCarrito = document.querySelector("#lista-carrito tbody");
 const vaciarCarritoBtn = document.querySelector("#vaciar-carrito");
 const listaCursos = document.querySelector("#lista-cursos");
 let articulosCarrito = [];
+
+// Listeners
 cargarEventListeners();
 function cargarEventListeners() {
-  // cuando se agrega un curso cuando se presiona agregar al carrito
+  // Agregar curso al carrito
   listaCursos.addEventListener("click", agregarCurso);
   //   Elimina cursos del carrito
   carrito.addEventListener("click", eliminarCurso);
+
+  // VACIAR EL CARRITO
+  vaciarCarritoBtn.addEventListener("click", () => {
+    // Reseteamnos el carrito
+    articulosCarrito = [];
+    // Eliminamos todo el HTML
+    limpiarHTML();
+  });
 }
 
 // FUNCIONES
 function agregarCurso(e) {
   e.preventDefault;
+  // Detectar si es el boton de agregar carrito
   if (e.target.classList.contains("agregar-carrito")) {
     const cursoSeleccionado = e.target.parentElement.parentElement;
 
@@ -66,19 +77,19 @@ function leerDatosCurso(curso) {
   } else {
     articulosCarrito = [...articulosCarrito, infoCurso];
   }
-
   actualizarCarrito();
+}
 
-  // Muestra el carrito de compras en el HTML
+// Muestra el carrito de compras en el HTML
 
-  function actualizarCarrito() {
-    // Limpiar el HTML
-    limpiarHTML();
-    // Recorre el cartito y genera el html
-    articulosCarrito.forEach((curso) => {
-      const { imagen, titulo, precio, cantidad, id } = curso;
-      const row = document.createElement("tr");
-      row.innerHTML = `
+function actualizarCarrito() {
+  // Limpiar el HTML
+  limpiarHTML();
+  // Recorre el cartito y genera el html
+  articulosCarrito.forEach((curso) => {
+    const { imagen, titulo, precio, cantidad, id } = curso;
+    const row = document.createElement("tr");
+    row.innerHTML = `
         <td>
             <img src="${imagen}" width="100"/>
         </td>
@@ -96,19 +107,18 @@ function leerDatosCurso(curso) {
         </td>
     `;
 
-      // Agrega el HTML del carrito en el tbody
-      contenedorCarrito.appendChild(row);
-    });
-  }
+    // Agrega el HTML del carrito en el tbody
+    contenedorCarrito.appendChild(row);
+  });
+}
 
-  // ELIMINA LOS CURSOS DEL TBODY
+// ELIMINA LOS CURSOS DEL TBODY
 
-  function limpiarHTML() {
-    // Forma lente de borrar HTML
-    //   contenedorCarrito.innerHTML = "";
+function limpiarHTML() {
+  // Forma lente de borrar HTML
+  //   contenedorCarrito.innerHTML = "";
 
-    while (contenedorCarrito.firstChild) {
-      contenedorCarrito.removeChild(contenedorCarrito.firstChild);
-    }
+  while (contenedorCarrito.firstChild) {
+    contenedorCarrito.removeChild(contenedorCarrito.firstChild);
   }
 }
